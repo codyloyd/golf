@@ -13,7 +13,7 @@ function love.load()
   map:removeLayer("ground")
 
   cam = gamera.new(0,0,map.width*map.tilewidth,map.height*map.tileheight)
-  cam:setScale(2.0)
+  cam:setScale(3.0)
 
   gameWon = false
 
@@ -93,7 +93,7 @@ function love.draw()
   cam:draw(function(l,t,w,h)
     love.graphics.setDefaultFilter( 'nearest', 'nearest' )
     love.graphics.setColor(1, 1, 1)
-    map:draw(-l,-t,2,2)
+    map:draw(-l,-t,3,3)
 
     love.graphics.setColor(1, 1, 1)
     love.graphics.draw(objects.ball.sprite, objects.ball.quad, objects.ball.body:getX()-3, objects.ball.body:getY()-3)
@@ -102,7 +102,7 @@ function love.draw()
     local angleRad = (shotAngle + 270) * math.pi/180
     local x = 50 * math.cos(angleRad)
     local y = 50 * math.sin(angleRad)
-    love.graphics.circle('fill', objects.ball.body:getX() + x, objects.ball.body:getY() + y, 5)
+    love.graphics.circle('fill', objects.ball.body:getX() + x, objects.ball.body:getY() + y, 2)
   end)
 
 end
