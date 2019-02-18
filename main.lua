@@ -50,6 +50,7 @@ function love.load()
 
  -- GAME STUFF
   shotAngle = 0
+  shotPower = 50
   love.graphics.setBackgroundColor(135/255, 150/255, 180/255)
   love.graphics.setDefaultFilter( 'nearest', 'nearest' )
   -- love.window.setMode(650, 650)
@@ -66,6 +67,12 @@ function love.update(dt)
   if love.keyboard.isDown('left') then
     shotAngle = shotAngle - 50 * dt
   end
+  if love.keyboard.isDown('up') then
+    shotPower = math.min(shotPower + 50 * dt, 100)
+  end
+  if love.keyboard.isDown('down') then
+    shotPower = math.max(shotPower - 50 * dt, 0)
+  end
   local ballX = objects.ball.body:getX()
   local ballY = objects.ball.body:getY()
   if ballX > hole.x + 4 and ballX < hole.x + 14 and ballY > hole.y and ballY < hole.y + 16 then
@@ -78,8 +85,8 @@ function love.keypressed(key)
     -- this is the math that turns an angle in degrees into X/Y coords.
     -- the 15000 is "power" didn't code a variable for that yet
     local angleRad = (shotAngle + 270) * math.pi/180
-    local xForce = 25000 * math.cos(angleRad)
-    local yForce = 25000 * math.sin(angleRad)
+    local xForce = shotPower * 500 * math.cos(angleRad)
+    local yForce = shotPower * 500 * math.sin(angleRad)
     objects.ball.body:applyForce(xForce, yForce)
   end
 
@@ -104,5 +111,7 @@ function love.draw()
     local y = 50 * math.sin(angleRad)
     love.graphics.circle('fill', objects.ball.body:getX() + x, objects.ball.body:getY() + y, 2)
   end)
+
+  love.graphics.print('POWER: '.. math.floor(shotPower))
 
 end
